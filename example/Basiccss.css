@@ -1,0 +1,36 @@
+.ant-modal-content {
+    width: 600px;
+}
+.ant-modal-title{
+    font-size: 25px !important;
+}
+.col-form-label {
+    font-size: 15px;
+    font-weight: bold;
+}
+.newstyleFrom{
+    width: 100px;
+}
+.newstyleTime{
+    width: 50px;
+}
+.styleTextarea{
+    width: 175px;
+}
+input[type='text'], input[type='password'], input[type='number'], textarea {
+    border-radius: 6px;
+}
+.sizeword{
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
+}
+.sizecolor{
+    width: 10%;
+}
+.fontsize{
+    font-weight: bold;
+}
+.about{
+    margin-bottom: 30px;
+}
