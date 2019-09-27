@@ -57,7 +57,7 @@ class AddProject extends Component {
                     <div className="row">
                         <div className="col-xs-3 col-sm-3 col-md-3 col-lg-3"></div>
                         <div className="col-6">
-                            <form > 
+                            <form >
                                 <div className="row form-group">
                                     <div className="col-3">
                                         <label htmlFor="exampleInputEmail1" className="fontsize">Name Project</label>

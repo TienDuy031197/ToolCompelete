@@ -9,6 +9,7 @@ import './../node_modules/sweetalert/dist/sweetalert.css';
 import axios from 'axios';
 import NavCustom from './NavCustom';
 import { configConsumerProps } from 'antd/lib/config-provider';
+import { Modal } from "antd"
 
 class CrudResource extends Component {
   constructor(props) {
@@ -26,6 +27,14 @@ class CrudResource extends Component {
       editJobTitle: '',
       editSkill: '',
       editNote: '',
+
+      showModal: false,
+      fullname: '',
+      email: '',
+      department: '',
+      job_title: '',
+      skill: '',
+      notes: ''
     }
   }
 
@@ -208,9 +217,56 @@ class CrudResource extends Component {
     });
   }
 
+  openModal = () => {
+    this.setState({
+      showModal: true,
+    })
+  }
 
+  handleOk = () => {
+    let {showList, fullname, email, department, job_title, skill, notes } = this.state;
+    axios({
+      method: 'POST',
+      url: 'https://demo-app-tool-nodejs.herokuapp.com/api/resource/create',
+      data: {
+          "resourceName":fullname,
+          "email":email,
+          "department":department,
+          "jobTitle":job_title,
+          "skill":skill,
+          "notes":notes
+      }
+  }).then(res => {
+      console.log(res);
+      let addList = {resourceName:fullname,email:email,department:department,jobTitle:job_title,skill:skill,notes:notes};
+      showList.push(addList);
+      this.setState({
+        showList:showList,
+        showModal:false,
+      });
+      alert("Them thanh cong!");
+  }).catch(err => {
+      console.log(err);
+  });
+  }
+
+  handleCancel = () => {
+    this.setState({
+      showModal: false,
+    })
+  }
+
+  onChange = (e) => {
+    var target = e.target;
+    var name = target.name;
+    var value = target.value;
+    this.setState({
+      [name]: value
+    });
+  }
 
   render() {
+    let { fullname, email, department, job_title, skill, notes } = this.state;
     return (
       <div>
         <NavCustom />
@@ -220,7 +276,7 @@ class CrudResource extends Component {
               <div className="row">
                 <div className="col-sm-8"><h2>Resource <b>Details</b></h2></div>
                 <div className="col-sm-4">
-                  {/* <button type="button" className="btn btn-info add-new"><i className="fa fa-plus"></i> Add New</button> */}
+                  <button type="button" onClick={this.openModal} className="btn btn-info add-new"><i className="fa fa-plus"></i> Add New</button>
                 </div>
               </div>
             </div>
@@ -242,6 +298,118 @@ class CrudResource extends Component {
             </table>
           </div>
         </div>
+        <Modal
+          title="ADD RESOURCE"
+          visible={this.state.showModal}
+
+          onOk={this.handleOk}
+          onCancel={this.handleCancel}
+        >
+          <div className="container">
+            <div className="row form-group">
+              <div className="col-3">
+                <label htmlFor="exampleInputEmail1" className="fontsize">Full Name</label>
+              </div>
+              <div className="col-8">
+                <input
+                  type="text"
+                  className="form-control form-control-sm"
+                  id="exampleInputEmail1"
+                  aria-describedby="emailHelp"
+                  placeholder=""
+                  name="fullname"
+                  value={fullname}
+                  onChange={this.onChange}
+                />
+              </div>
+            </div>
+            <div className="row form-group">
+              <div className="col-3">
+                <label htmlFor="exampleInputPassword1" className="fontsize">Email</label>
+              </div>
+              <div className="col-8">
+                <input
+                  type="email"
+                  className="form-control form-control-sm"
+                  id="exampleInputPassword1"
+                  placeholder=""
+                  name="email"
+                  value={email}
+                  onChange={this.onChange}
+                />
+              </div>
+            </div>
+            <div className="row form-group">
+              <div className="col-3">
+                <label htmlFor="exampleInputPassword1" className="fontsize">Department</label>
+              </div>
+              <div className="col-8">
+                <select
+                  className="form-control form-control-sm"
+                  name="department"
+                  value={department}
+                  onChange={this.onChange}
+                >
+                  <option></option>
+                  <option>PB1</option>
+                  <option>PB2</option>
+                  <option>PB3</option>
+                </select>
+              </div>
+            </div>
+            <div className="row form-group">
+              <div className="col-3">
+                <label htmlFor="exampleInputPassword1" className="fontsize">Job Title</label>
+              </div>
+              <div className="col-8">
+                <select
+                  className="form-control form-control-sm"
+                  name="job_title"
+                  value={job_title}
+                  onChange={this.onChange}
+                >
+                  <option></option>
+                  <option>CD1</option>
+                  <option>CD2</option>
+                  <option>CD3</option>
+                </select>
+              </div>
+            </div>
+            <div className="row form-group">
+              <div className="col-3">
+                <label htmlFor="exampleInputPassword1" className="fontsize">Skill</label>
+              </div>
+              <div className="col-8">
+                <select
+                  className="form-control form-control-sm"
+                  name="skill"
+                  value={skill}
+                  onChange={this.onChange}
+                >
+                  <option></option>
+                  <option>Java</option>
+                  <option>Nodejs</option>
+                  <option>React</option>
+                </select>
+              </div>
+            </div>
+            <div className="row form-group">
+              <div className="col-3">
+                <label for="exampleFormControlTextarea1" className="fontsize">Notes</label>
+              </div>
+              <div className="col-8">
+                <textarea
+                  class="form-control form-control-sm"
+                  id="exampleFormControlTextarea1"
+                  rows="3"
+                  name="notes"
+                  value={notes}
+                  onChange={this.onChange}
+                ></textarea>
+              </div>
+            </div>
+          </div>
+        </Modal>
       </div>
     );
   }
