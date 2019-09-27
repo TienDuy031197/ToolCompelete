@@ -60,7 +60,7 @@ class Basic extends Component {
         console.log("detail", this.state.nameDetail);
         axios({
             method: 'POST',
-            url: 'http://localhost:3000/api/task/create',
+            url: 'https://demo-app-tool-nodejs.herokuapp.com/api/task/create',
             data: {
                 "resourceName": this.state.resourceName,
                 "startDate": startDateNow,
@@ -137,60 +137,39 @@ class Basic extends Component {
         console.log("ma mau", this.state.color);
     }
 
-    getDataFromServer = () => {
-        let { viewModel } = this.state;
-        axios({
+    componentDidMount() {
+        this.getData();
+    }
+
+    async getData() {
+        console.log("dau");
+        await axios({
             method: 'GET',
-            url: 'http://localhost:3000/api/task',
+            url: 'https://demo-app-tool-nodejs.herokuapp.com/api/project',
             data: null
         }).then(res => {
-            console.log(res);
             this.setState({
-                task: res.data.task,
+                dataproject: res.data.project,
             });
-
-            console.log("o day", this.state.task);
-            if (this.state.task.length > 0) {
-                console.log("o day 1");
-                for (let i = 0; i < this.state.task.length; i++) {
-                    let newColor = '';
-                    for (let j = 0; j < this.state.dataproject.length; j++) {
-                        if (this.state.task[i].projectName === this.state.dataproject[j].nameProject) {
-                            newColor = this.state.dataproject[j].color;
-                            break;
-                        }
-                    }
-                    console.log("o day 2");
-                    let newEvent = {
-                        id: this.state.task[i]._id,
-                        title: this.state.task[i].projectName,
-                        start: this.state.task[i].startDate,
-                        end: this.state.task[i].endDate,
-                        resourceId: this.state.task[i].resourceId,
-                        bgColor: newColor,
-                    }
-                    console.log("test", newEvent);
-                    viewModel.addEvent(newEvent);
-                    this.setState({
-                        viewModel: viewModel
-                    })
+            let array = [];
+            if (this.state.dataproject.length > 0) {
+                for (let i = 0; i < this.state.dataproject.length; i++) {
+                    array.push(this.state.dataproject[i].nameProject);
                 }
             }
+            this.setState({
+                arrayproject: array
+            });
+
         }).catch(err => {
             console.log(err);
         })
-    }
-    componentDidMount() {
-        this.getDataProject();
-        this.getDataFromServer();
-        this.getDataResource();
-    }
 
-    getDataResource = () => {
+        console.log("giua");
         let { viewModel } = this.state;
-        axios({
+        await axios({
             method: 'GET',
-            url: 'http://localhost:3000/api/resource',
+            url: 'https://demo-app-tool-nodejs.herokuapp.com/api/resource',
             data: null
         }).then(res => {
             this.setState({
@@ -207,34 +186,44 @@ class Basic extends Component {
         }).catch(err => {
             console.log(err);
         })
-    }
 
-    getDataProject = () => {
-        axios({
+        //let { viewModel } = this.state;
+        console.log("sau");
+        await axios({
             method: 'GET',
-            url: 'http://localhost:3000/api/project',
+            url: 'https://demo-app-tool-nodejs.herokuapp.com/api/task',
             data: null
         }).then(res => {
-            console.log("project", res);
             this.setState({
-                dataproject: res.data.project,
+                task: res.data.task,
             });
-            console.log("newproject1", this.state.dataproject);
-            console.log("newproject", this.state.dataproject.length);
-            let array = [];
-            if (this.state.dataproject.length > 0) {
-                for (let i = 0; i < this.state.dataproject.length; i++) {
-                    array.push(this.state.dataproject[i].nameProject);
+            if (this.state.task.length > 0) {
+                for (let i = 0; i < this.state.task.length; i++) {
+                    let newColor = '';
+                    for (let j = 0; j < this.state.dataproject.length; j++) {
+                        if (this.state.task[i].projectName === this.state.dataproject[j].nameProject) {
+                            newColor = this.state.dataproject[j].color;
+                            break;
+                        }
+                    }
+                    let newEvent = {
+                        id: this.state.task[i]._id,
+                        title: this.state.task[i].projectName,
+                        start: this.state.task[i].startDate,
+                        end: this.state.task[i].endDate,
+                        resourceId: this.state.task[i].resourceId,
+                        bgColor: newColor,
+                    }
+                    viewModel.addEvent(newEvent);
+                    this.setState({
+                        viewModel: viewModel
+                    })
                 }
             }
-            console.log("test1111", array);
-            this.setState({
-                arrayproject: array
-            });
-
         }).catch(err => {
             console.log(err);
         })
+
     }
 
     showSelect = () => {
@@ -245,34 +234,9 @@ class Basic extends Component {
             switch (index) {
                 case index:
                     return <option key={index} value={value}>{value}</option>
-                // case index:
-                //     return <option key={index} value={value}>{value}</option>
-                // case index:
-                //     return <option key={index} value={value}>{value}</option>
-                // case index:
-                //     return <option key={index} value={value}>{value}</option>
-                // case index:
-                //     return <option key={index} value={value}>{value}</option>
-                // case index:
-                //     return <option key={index} value={value}>{value}</option>
-                // default:
-                //     return <option key={index} value={value}>{value}</option>
             }
         })
-        // let index = 0;
-        // let jdk= "";
-        //  for(let i=0;i<arrayproject.length;i++){
-        //     if(index === i){
-        //         jdk = jdk + " <option key={index} value>{arrayproject[i]}</option>"
-        //     }
-        //     i++;
-        // }
-        // return jdk;
     }
-
-    // componentWillMount() {
-
-    // }
 
     render() {
 
@@ -358,34 +322,7 @@ class Basic extends Component {
                                 ></input>
                             </label>
                         </div>
-                        {/* <div className="row form-group">
-                            <label className="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-form-label">
-                                Time per day
-                            </label>
-                            <label className="col-xs-2 col-sm-2 col-md-2 col-lg-2 col-form-label">
-                                <input type="text" value={startTime} onChange={this.onChangeStartTime} className="newstyleTime"></input>
-                            </label>
-                            <label className="col-xs-1 col-sm-1 col-md-1 col-lg-1 col-form-label">
-                                to
-                            </label>
-                            <label className="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-form-label">
-                                <input type="text" value={endTime} onChange={this.onChangeEndTime} className="newstyleTime"></input>
-                            </label>
-                        </div> */}
-                        {/* <div className="row form-group">
-                            <label className="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-form-label">
-                                Project
-                            </label>
-                            <label className="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-form-label">
-                                <input
-                                    type="text"
-                                    value={namePro}
-                                    // onChange={this.onChangeNamePro}
-                                    name="namePro"
-                                    onChange={this.onChange}
-                                ></input>
-                            </label>
-                        </div> */}
+                        
                         <div className="row form-group">
                             <label className="col-xs-3 col-sm-3 col-md-3 col-lg-3 col-form-label">
                                 Project

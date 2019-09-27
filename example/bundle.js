@@ -25,6 +25,8 @@ import CustomPopoverStyle from './CustomPopoverStyle'
 import ListButton from './ListButton'
 import AddResourceCustom from './AddResourceCustom'
 import AddProject from './AddProject'
+import CrudResource from './CrudResource'
+import CrudProject from './CrudProject'
 
 render((
     <Router>
@@ -52,6 +54,8 @@ render((
         <Route path="/listbutton" component={ListButton}/>
         <Route path="/addresourcecustom" component={AddResourceCustom}/>
         <Route path="/addproject" component={AddProject}/>
+        <Route path="/crudresource" component={CrudResource}/>
+        <Route path="/crudproject" component={CrudProject}/>
     </Router>
 ), document.getElementById('root'))
 

@@ -29,7 +29,7 @@ class AddProject extends Component {
     onSubmitForm = (e) => {
         axios({
             method: 'POST',
-            url: 'http://localhost:3000/api/project/create',
+            url: 'https://demo-app-tool-nodejs.herokuapp.com/api/project/create',
             data: {
                 "nameProject": this.state.nameProject,
                 "category": this.state.category,

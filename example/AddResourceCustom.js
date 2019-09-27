@@ -30,7 +30,7 @@ class AddResourceCustom extends Component {
     onClickResource = (e) => {
         axios({
             method: 'POST',
-            url: 'http://localhost:3000/api/resource/create',
+            url: 'https://demo-app-tool-nodejs.herokuapp.com/api/resource/create',
             data: {
                 "resourceName":this.state.fullname,
                 "email":this.state.email,
@@ -41,6 +41,7 @@ class AddResourceCustom extends Component {
             }
         }).then(res => {
             console.log(res);
+            alert("Them thanh cong!");
         }).catch(err => {
             console.log(err);
         });

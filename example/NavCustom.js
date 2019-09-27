@@ -33,6 +33,20 @@ class NavCustom extends Component {
                         </Link>
                     {/* <a className="nav-link" href="#">Add Project</a> */}
                     </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" target="_self"
+                              to='/crudresource'>
+                            <span>Resource</span>
+                        </Link>
+                    {/* <a className="nav-link" href="#">Add Project</a> */}
+                    </li>
+                    <li className="nav-item">
+                        <Link className="nav-link" target="_self"
+                              to='/crudproject'>
+                            <span>Project</span>
+                        </Link>
+                    {/* <a className="nav-link" href="#">Add Project</a> */}
+                    </li>
                     {/* <li className="nav-item">
                     <a className="nav-link disabled" href="#">Disabled</a>
                     </li> */}
