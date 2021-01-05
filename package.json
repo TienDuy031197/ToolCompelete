@@ -42,7 +42,7 @@
   ],
   "dependencies": {
     "antd": "^3.16.6",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "bootstrap": "^4.3.1",
     "cpy": "^3.4.1",
     "moment": "^2.24.0",
